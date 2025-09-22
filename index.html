@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🎉 Happy Birthday!</title>
+  <style>
+    /* Reset and basic styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      min-height: 100%;
+      background: #f8edeb; /* fallback if image fails */
+      position: relative;
+    }
+
+    /* Semi-transparent background image */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('Snapchat-832372954.jpg') center/cover no-repeat;
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    /* Canvas for falling hearts */
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    /* Music button */
+    #playBtn {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: #ff69b4;
+      color: white;
+      cursor: pointer;
+      z-index: 15;
+      box-shadow: 0 0 10px rgba(255,105,180,0.5);
+    }
+    #playBtn:hover { background: #eb2929; }
+
+    /* Message content */
+    .message {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      margin: 50px 20px;
+    }
+    .message img {
+      max-width: 200px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(255,105,180,0.6);
+      animation: fadein 2s ease-in-out;
+    }
+    .message h1 {
+      font-size: 4rem;
+      color: #fff;
+      text-shadow: 0 0 20px #ff69b4;
+      animation: shimmer 2s infinite linear;
+    }
+    .message p {
+      font-size: 1.8rem;
+      color: #f14d4d;
+      margin-top: 20px;
+      animation: fadein 2s ease-in-out;
+    }
+    .greeting {
+      background: #ffffff;
+      padding: 15px 30px;
+      margin-top: 40px;
+      border-radius: 25px;
+      color: #ff69b4;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(255,105,180,0.4);
+      display: inline-block;
+    }
+    .greeting:hover {
+      background: #ff69b4;
+      color: #eb2929;
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #ff1493;
+    }
+
+    @keyframes shimmer {
+      0% { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4; }
+      50% { text-shadow: 0 0 20px #ff1493, 0 0 30px #ff1493; }
+      100% { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4; }
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Balloons */
+    .balloon {
+      width: 60px;
+      height: 80px;
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: floatUp 10s infinite ease-in;
+      z-index: 1;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 40px;
+      background: #444;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    }
+    .balloon:nth-child(1) { left: 10%; background: #ff6b6b; animation-delay: 0s; }
+    .balloon:nth-child(2) { left: 25%; background: #6bc1ff; animation-delay: 2s; }
+    .balloon:nth-child(3) { left: 45%; background: #ffd93b; animation-delay: 4s; }
+    .balloon:nth-child(4) { left: 65%; background: #9bff6b; animation-delay: 1s; }
+    .balloon:nth-child(5) { left: 80%; background: #e66bff; animation-delay: 3s; }
+
+    /* Stars */
+    .stars { position: absolute; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; }
+    .star {
+      position: absolute;
+      width: 10px; height: 10px;
+      background: gold;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      animation: sparkle 3s infinite ease-in-out;
+    }
+    @keyframes sparkle {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0; }
+      50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+    }
+    .star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+    .star:nth-child(2) { top: 30%; left: 50%; animation-delay: 1s; }
+    .star:nth-child(3) { top: 70%; left: 30%; animation-delay: 2s; }
+    .star:nth-child(4) { top: 40%; left: 80%; animation-delay: 1.5s; }
+    .star:nth-child(5) { top: 60%; left: 60%; animation-delay: 0.5s; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Music -->
+  <button id="playBtn">▶ Play Music</button>
+  <audio id="bgMusic" loop>
+    <source src="love.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Canvas -->
+  <canvas id="bg"></canvas>
+
+  <!-- Message -->
+  <div class="message">
+    <img src="1729424545097.jpg" alt="Birthday Cake" />
+    <h1>🎉 Happy Birthday bachha 💓💝 🎂</h1>
+    <p>God bless you 💌😘 always be happy ❤️😙🤗 </p>
+    <p>All your dreams come true! 🌟🎁</p>
+    <p>And don't be sad today please 💖</p>
+    <p>Keep smiling and enjoy your day! 🎈🎉</p>
+    <div class="greeting">Love you baccha 😚💖</div>
+  </div>
+
+  <!-- Balloons -->
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+
+  <!-- Stars -->
+  <div class="stars">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    // Music play button
+    const bgMusic = document.getElementById("bgMusic");
+    const playBtn = document.getElementById("playBtn");
+    playBtn.addEventListener("click", () => {
+      bgMusic.play();
+      playBtn.style.display = "none";
+    });
+
+    // Falling hearts
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function createHeart() {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
+        size: Math.random() * 20 + 10,
+        speed: Math.random() * 2 + 1,
+        drift: (Math.random() - 0.5) * 1.5,
+        color: `hsl(${Math.random() * 360}, 100%, 70%)`
+      };
+    }
+
+    const hearts = Array.from({ length: 70 }, createHeart);
+
+    function drawHeart(x, y, size, color) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.translate(x, y);
+      ctx.rotate(Math.PI);
+      ctx.scale(size / 25, size / 25);
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(0, -10, -15, -15, -15, 0);
+      ctx.bezierCurveTo(-15, 10, 0, 15, 0, 25);
+      ctx.bezierCurveTo(0, 15, 15, 10, 15, 0);
+      ctx.bezierCurveTo(15, -15, 0, -10, 0, 0);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hearts.forEach(heart => {
+        heart.y += heart.speed;
+        heart.x += heart.drift;
+        if (heart.y > canvas.height + 30 || heart.x < -30 || heart.x > canvas.width + 30) {
+          Object.assign(heart, createHeart());
+          heart.y = -20;
+        }
+        drawHeart(heart.x, heart.y, heart.size, heart.color);
+      });
+      requestAnimationFrame(update);
+    }
+
+    update();
+  </script>
+</body>
+</html>
